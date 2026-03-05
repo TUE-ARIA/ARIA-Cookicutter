@@ -1,0 +1,17 @@
+{
+    "project_name": "project_name",
+    "repo_name": "repo_name",
+    "repo_url": "should look like: git@github.com:TUE-ARIA/something.git",
+    "project_slug": "{{cookiecutter.repo_name.lower().replace(' ', '_')}}",
+    "organization": "TU/e",
+    "author_name": "Your Name",
+    "author_email": "your.email@tue.nl",
+    "description": "A short description of the project. No quotes.",
+    "license": ["No license", "MIT", "BSD-3-Clause", "BSD license", "ISC license", "Apache Software License 2.0", "GNU General Public License v3", "Mozilla Public License 2.0"],
+    "enable_cuda": ["True", "False"],
+    "python_major_version": 3,
+    "python_minor_version": 11,
+    "minimal_python_version": "{{cookiecutter.python_major_version}}.{{cookiecutter.python_minor_version}}",
+    "line_length": 120,
+    "version": ["0.1.0"]
+}
