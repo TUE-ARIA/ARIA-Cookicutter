@@ -1,7 +1,7 @@
 {
     "project_name": "project_name",
     "repo_name": "repo_name",
-    "repo_url": "should look like: git@github.com:TUE-ARIA/something.git",
+    "repo_url": "should look like: git@github.com:your-org/something.git or https://github.com/your-org/something.git",
     "project_slug": "{{cookiecutter.repo_name.lower().replace(' ', '_')}}",
     "organization": "TU/e",
     "author_name": "Your Name",

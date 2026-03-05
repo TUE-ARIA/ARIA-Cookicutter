@@ -39,8 +39,16 @@ git@github.com:your-org/your-repo.git
 
 ### 2) Generate a project from this template
 
+#### Using SSH:
+
 ```bash
 cookiecutter git@github.com:TUE-ARIA/ARIA-Cookicutter.git
+```
+
+#### Using HTTPS:
+
+```bash
+cookiecutter https://github.com/TUE-ARIA/ARIA-Cookicutter.git
 ```
 
 During prompts:
