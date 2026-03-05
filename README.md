@@ -40,7 +40,7 @@ git@github.com:your-org/your-repo.git
 ### 2) Generate a project from this template
 
 ```bash
-cookiecutter git@github.com:caetas/CookieCutter.git
+cookiecutter git@github.com:TUE-ARIA/ARIA-Cookicutter.git
 ```
 
 During prompts:
