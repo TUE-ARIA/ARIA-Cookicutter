@@ -6,5 +6,4 @@ default_context:
   description: "{{ cookiecutter.description }}"
   organization: "{{ cookiecutter.organization }}"
   license: "{{ cookiecutter.license }}"
-  line_length: "{{ cookiecutter.line_length }}"
   python_minimal_version: "{{ cookiecutter.minimal_python_version }}"

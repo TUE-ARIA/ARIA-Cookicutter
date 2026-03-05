@@ -95,7 +95,6 @@ uv sync --python <min_version>
 - `license`: License selection
 - `enable_cuda`: Controls Windows CUDA vs CPU PyTorch source in generated `pyproject.toml`
 - `minimal_python_version`: Minimum Python version
-- `line_length`: Formatting line length
 - `version`: Initial package version
 
 ## Notes on platform behavior
