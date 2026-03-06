@@ -16,25 +16,18 @@ A practical cookiecutter template for starting our projects quickly with a consi
 
 ## Requirements
 
-- Python 3.10+
 - `uv` installed
-- `cookiecutter` installed
-
-Install cookiecutter from this repository root:
-
-```bash
-pip install -r requirements.txt
-```
 
 ## Quickstart (recommended)
 
 ### 1) Create an empty GitHub repository
 
 Create a new repository on GitHub first (no README, no `.gitignore`, no license).
-Copy its SSH URL, for example:
+Copy its SSH or HTTPS URL, for example:
 
 ```text
 git@github.com:your-org/your-repo.git
+https://github.com/your-org/your-repo.git
 ```
 
 ### 2) Generate a project from this template
@@ -42,19 +35,19 @@ git@github.com:your-org/your-repo.git
 #### Using SSH:
 
 ```bash
-cookiecutter git@github.com:TUE-ARIA/ARIA-Cookicutter.git
+uvx cookiecutter git@github.com:TUE-ARIA/ARIA-Cookicutter.git
 ```
 
 #### Using HTTPS:
 
 ```bash
-cookiecutter https://github.com/TUE-ARIA/ARIA-Cookicutter.git
+uvx cookiecutter https://github.com/TUE-ARIA/ARIA-Cookicutter.git
 ```
 
 During prompts:
 
 - set `repo_name` to your GitHub repository name
-- set `repo_url` to the SSH URL you copied above
+- set `repo_url` to the SSH or HTTPS URL you copied above
 - choose `enable_cuda` (`True` or `False`)
 
 ### 3) Let post-gen run
