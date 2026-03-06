@@ -1,9 +1,0 @@
-# This file contains values from Cookiecutter
-
-default_context:
-  project_name: "{{ cookiecutter.project_name }}"
-  repo_name: "{{ cookiecutter.repo_name }}"
-  description: "{{ cookiecutter.description }}"
-  organization: "{{ cookiecutter.organization }}"
-  license: "{{ cookiecutter.license }}"
-  python_minimal_version: "{{ cookiecutter.minimal_python_version }}"
