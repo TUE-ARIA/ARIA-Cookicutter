@@ -31,24 +31,6 @@ Create the environment and install the dependencies:
 
     uv sync --python {{cookiecutter.minimal_python_version}}
 
-#### Activate the environment on Linux
-
-You can activate the environment with:
-
-    source .venv/bin/activate
-
-You might be required to run the following command once to setup the automatic activation of the conda environment and the virtualenv:
-
-    direnv allow
-
-Feel free to edit the [`.envrc`](.envrc) file if you prefer to activate the environments manually.
-
-#### Activate the environment on Windows
-
-You can activate the environment with:
-
-    .venv-dev/Scripts/Activate.ps1
-
 ### Using Docker or Apptainer
 
 Create a `.secrets` file and add your Weights & Biases API Key:
@@ -63,7 +45,7 @@ Create the image using the provided [`Dockerfile`](Dockerfile)
 
 Or download it from the Hub:
 
-    docker pull docker://ocaetas/{{ cookiecutter.project_slug }}
+    docker pull docker://your-username/{{ cookiecutter.project_slug }}
 
 Then run the script [`job_docker.sh`](scripts/job_docker.sh) that will execute [`main.sh`](scripts/main.sh):
 
@@ -78,7 +60,7 @@ To access the shell, please run:
 
 Convert the Docker Image to a `.sif` file:
 
-    apptainer pull {{ cookiecutter.project_slug }}.sif docker://ocaetas/{{ cookiecutter.project_slug }}
+    apptainer pull {{ cookiecutter.project_slug }}.sif docker://your-username/{{ cookiecutter.project_slug }}
 
 Then run the script [`job_apptainer.sh`](scripts/job_apptainer.sh) that will execute [`main.sh`](scripts/main.sh):
     
