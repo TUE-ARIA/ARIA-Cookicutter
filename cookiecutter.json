@@ -2,7 +2,7 @@
     "project_name": "project_name",
     "repo_name": "repo_name",
     "repo_url": "should look like: git@github.com:your-org/something.git or https://github.com/your-org/something.git",
-    "project_slug": "{{cookiecutter.repo_name.lower().replace(' ', '_')}}",
+    "project_slug": "{{cookiecutter.repo_name.lower().replace(' ', '_').replace('-', '_')}}",
     "organization": "TU/e ARIA Lab",
     "author_name": "Your Name",
     "author_email": "your.email@tue.nl",

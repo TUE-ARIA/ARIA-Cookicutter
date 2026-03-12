@@ -11,7 +11,7 @@ logger = logging.getLogger("pre_gen_project")
 
 assert "\\" not in "{{ cookiecutter.author_name }}", "Don't include backslashes in author name."
 
-PROJECT_SLUG_REGEX = r"^[a-z][_a-z0-9]+$"
+PROJECT_SLUG_REGEX = r"^[a-z][_a-z0-9]*$"
 
 # Regular expression to check for a valid email address — based on the HTML5 standard
 # (https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address). This is
@@ -21,6 +21,19 @@ REGEX_EMAIL_ADDRESS = (
     r"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?"
     r"(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
 )
+
+
+def suggest_valid_module_name(name: str) -> str:
+    """Return a PEP 8-friendly suggestion derived from user input."""
+    cleaned = name.lower().replace("-", "_").replace(" ", "_")
+    if not cleaned:
+        return "my_project"
+    if not cleaned[0].isalpha():
+        cleaned = f"p{cleaned}"
+    cleaned = re.sub(r"[^a-z0-9_]", "_", cleaned)
+    if not re.match(PROJECT_SLUG_REGEX, cleaned):
+        return "my_project"
+    return cleaned
 
 
 def check_valid_email_address_format(email: str) -> None:
@@ -44,7 +57,12 @@ if __name__ == "__main__":
 
     if not re.match(PROJECT_SLUG_REGEX, module_name):
         link = "https://www.python.org/dev/peps/pep-0008/#package-and-module-names"
-        logger.error("Module name should be pep-8 compliant.")
+        suggestion = suggest_valid_module_name(module_name)
+        logger.error("Module name should be pep-8 compliant: %s", module_name)
+        logger.error(
+            "  Use lowercase letters, numbers and underscores, and start with a letter."
+        )
+        logger.error("  Suggested value for project_slug: %s", suggestion)
         logger.error("  More info: {}".format(link))
 
         # exits with status 1 to indicate failure
