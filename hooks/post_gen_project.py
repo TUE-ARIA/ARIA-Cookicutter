@@ -7,6 +7,7 @@ import os
 import shutil
 import subprocess
 import re
+import sys
 from typing import Sequence
 
 logging.basicConfig(level=logging.DEBUG)
@@ -53,6 +54,39 @@ def is_valid_repo_url(repo_url: str) -> bool:
     return any(re.match(pattern, repo_url) for pattern in REPO_URL_PATTERNS)
 
 
+def parse_repo_slug(repo_url: str) -> str | None:
+    """Extract owner/repo from SSH/HTTPS git URLs."""
+    patterns = (
+        r"^git@[^:\s]+:(?P<slug>[^\s]+?)(?:\.git)?$",
+        r"^ssh://git@[^/\s]+/(?P<slug>.+?)(?:\.git)?$",
+        r"^https://[^/\s]+/(?P<slug>.+?)(?:\.git)?$",
+    )
+    for pattern in patterns:
+        match = re.match(pattern, repo_url)
+        if match:
+            return match.group("slug")
+    return None
+
+
+def switch_remote_default_branch_to_main(repo_url: str) -> bool:
+    """Try to set GitHub default branch to main using gh CLI."""
+    repo_slug = parse_repo_slug(repo_url)
+    if not repo_slug:
+        logger.warning(WARNING + "Could not parse owner/repo from repo_url; cannot switch default branch automatically." + TERMINATOR)
+        return False
+
+    logger.info(INFO + f"Attempting to set default branch to main via gh for {repo_slug}" + TERMINATOR)
+    rc = run_command(["gh", "repo", "edit", repo_slug, "--default-branch", "main"])
+    if rc != 0:
+        logger.warning(
+            WARNING
+            + "Failed to switch default branch using gh. Ensure gh is installed/authenticated or change default branch in GitHub settings."
+            + TERMINATOR,
+        )
+        return False
+    return True
+
+
 def setup_git_repo() -> None:
     # Create git repo
     run_command(["git", "init", "-q"])
@@ -87,7 +121,24 @@ def setup_remote_and_push(repo_url: str) -> None:
     run_command(["git", "merge", "cookiecutter"])
     run_command(["git", "push", "--set-upstream", "origin", "main"])
     run_command(["git", "branch", "-d", "cookiecutter"])
-    run_command(["git", "push", "origin", "--delete", "cookiecutter"])
+    delete_rc = run_command(["git", "push", "origin", "--delete", "cookiecutter"])
+    if delete_rc != 0:
+        logger.warning(
+            WARNING
+            + "Remote rejected deleting 'cookiecutter'. Trying to switch remote default branch to 'main' and retry."
+            + TERMINATOR,
+        )
+        switched = switch_remote_default_branch_to_main(repo_url)
+        if switched:
+            delete_rc = run_command(["git", "push", "origin", "--delete", "cookiecutter"])
+
+    if delete_rc != 0:
+        logger.error(
+            "[ERROR] Mandatory cleanup failed: remote branch 'cookiecutter' could not be deleted. "
+            "Set default branch to 'main' in GitHub, then run: git push origin --delete cookiecutter",
+        )
+        sys.exit(1)
+
     run_command(["git", "checkout", "dev"])
     run_command(["git", "merge", "main"])
     run_command(["git", "push", "--set-upstream", "origin", "dev"])
